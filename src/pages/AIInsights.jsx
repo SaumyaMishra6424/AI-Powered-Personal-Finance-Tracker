@@ -12,7 +12,7 @@ export default function AIInsights() {
     setAnswer("");
 
     try {
-      const res = await fetch("http://localhost:5000/ai", {
+      const res = await fetch("/api/ai", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
