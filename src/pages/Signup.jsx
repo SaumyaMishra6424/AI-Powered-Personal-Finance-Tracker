@@ -7,13 +7,13 @@ import {
 import { auth, googleProvider } from "../services/firebase";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Signup() {
+export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSignup = async (e) => {
+  const handlesignup = async (e) => {
     e.preventDefault();
     const res = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(res.user, { displayName: name });
@@ -37,7 +37,7 @@ export default function Signup() {
           Create your account
         </h2>
 
-        <form onSubmit={handleSignup} className="space-y-4">
+        <form onSubmit={handlesignup} className="space-y-4">
           <input
             placeholder="Full Name"
             className="w-full bg-cardBgSoft border border-gray-700 px-3 py-3 rounded-xl text-textWhite placeholder-softGray focus:outline-none focus:ring-2 focus:ring-accentGreen"

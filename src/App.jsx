@@ -4,7 +4,8 @@ import Profile from "./pages/Profile";
 import AIInsights from "./pages/AIInsights";
 import Login from "./pages/Login";
 import { useAuth } from "./context/AuthContext";
-import Signup from "./pages/SignUp";
+import SignUp from "./pages/SignUp";
+
 
 const Protected = ({ children }) => {
   const { user } = useAuth();
@@ -15,7 +16,8 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+     <Route path="/signup" element={<SignUp />} />
+
 
       <Route
         path="/dashboard"
