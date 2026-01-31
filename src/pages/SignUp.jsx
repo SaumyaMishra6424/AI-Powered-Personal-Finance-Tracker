@@ -11,31 +11,54 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handlesignup = async (e) => {
     e.preventDefault();
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(res.user, { displayName: name });
-    navigate("/dashboard");
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(res.user, { displayName: name });
+      navigate("/dashboard");
+    } catch (err) {
+      // show readable message
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
-    navigate("/dashboard");
+    setError("");
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-primaryBg px-4">
       <div className="bg-cardBg p-6 sm:p-8 rounded-xl2 shadow-xl w-full max-w-md">
 
-        {/* Heading */}
         <h1 className="text-2xl sm:text-3xl font-bold text-center text-textWhite mb-2">
           AI Powered Finance Tracker
         </h1>
         <h2 className="text-lg text-softGray text-center mb-6">
           Create your account
         </h2>
+
+        {error && (
+          <p className="text-red-400 text-sm mb-3 text-center">{error}</p>
+        )}
 
         <form onSubmit={handlesignup} className="space-y-4">
           <input
@@ -61,8 +84,11 @@ export default function SignUp() {
             required
           />
 
-          <button className="w-full bg-accentGreen text-black py-3 rounded-xl font-semibold hover:bg-accentGreenDark transition">
-            Register
+          <button
+            disabled={loading}
+            className="w-full bg-accentGreen text-black py-3 rounded-xl font-semibold hover:bg-accentGreenDark transition disabled:opacity-60"
+          >
+            {loading ? "Creating account..." : "Register"}
           </button>
         </form>
 
@@ -70,10 +96,11 @@ export default function SignUp() {
 
         <button
           onClick={handleGoogle}
-          className="w-full border border-gray-700 py-3 rounded-xl flex justify-center items-center gap-2 bg-cardBgSoft hover:bg-cardBg transition text-textWhite"
+          disabled={loading}
+          className="w-full border border-gray-700 py-3 rounded-xl flex justify-center items-center gap-2 bg-cardBgSoft hover:bg-cardBg transition text-textWhite disabled:opacity-60"
         >
           <span className="text-red-500 font-bold text-lg">G</span>
-          <span>Sign up with Google</span>
+          <span>{loading ? "Please wait..." : "Sign up with Google"}</span>
         </button>
 
         <p className="text-sm text-center mt-5 text-softGray">

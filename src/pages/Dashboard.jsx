@@ -16,6 +16,7 @@ const expenseCategories = ["Food","Shopping","Medical","Travel","Bills","Enterta
 export default function Dashboard() {
   const { transactions, addTransaction, deleteTransaction, updateTransaction } = useTransactions();
   const { user } = useAuth();
+const shortId = user?.uid ? user.uid.slice(0, 8).toUpperCase() : "";
 
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -115,7 +116,8 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <Card title="Your User ID" value={user?.uid} />
+          <Card title="Your User ID" value={shortId} />
+
         </div>
 
         {/* Pie Chart */}
@@ -207,7 +209,7 @@ export default function Dashboard() {
         {/* Floating Add Button */}
         <button
           onClick={openAdd}
-          className="fixed bottom-5 right-5 w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black text-3xl font-bold shadow-lg transition"
+          className="fixed bottom-5 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black text-3xl font-bold shadow-lg transition"
         >
           +
         </button>
